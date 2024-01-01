@@ -1,0 +1,22 @@
+
+.thumbnail, .thumbnail2 {
+  width: 80px;
+  margin: 4px;
+  border: 1px solid black;
+  display: inline-block;
+}
+.thumbnail, .thumbnail2:hover {
+  cursor: pointer;
+}
+.selected {
+  border: 2px solid red;
+}
+#main-image, #main-image2 {
+  width: 1000px;
+  margin: 10px;
+  border: 1px solid black;
+}
+.block {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}

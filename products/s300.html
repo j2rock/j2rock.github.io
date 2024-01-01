@@ -5,17 +5,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha256-YMa+wAM6QkVyz999odX7lPRxkoYAan8suedu4k2Zur8=" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha256-MBffSnbbXwHCuZtgPYiwMQbfE7z+GOZ7fBPCNB06Z98=" crossorigin="anonymous">
-
+  <link rel="stylesheet" type="text/css" href="../components/style.css">
   <title>MINInGEEK</title>
+
 </head>
 <body>
-  <link rel="import" href="/base.html"> 
   <div class="container">
-    <br/>
-    <br/>
-    <h1>S300</h1>
-    <img src="pics/S300/S300CW.jpg">
-    <img src="pics/S300/S300CB.jpg">
+    <div class="block">
+      <h1>S300 Black</h1>
+      <div id="thumbnails">
+        <img class="thumbnail selected" src="pics/S300/S300CB-1.jpg" onclick="changeImage(this)">
+        <img class="thumbnail" src="pics/S300/S300CB-2.jpg" onclick="changeImage(this)">
+        <img class="thumbnail" src="pics/S300/S300CB-3.jpg" onclick="changeImage(this)">
+        <img class="thumbnail" src="pics/S300/S300CB-4.jpg" onclick="changeImage(this)">
+        <img class="thumbnail" src="pics/S300/S300CB-5.jpg" onclick="changeImage(this)">
+        <img class="thumbnail" src="pics/S300/S300CB-6.jpg" onclick="changeImage(this)">
+        <img class="thumbnail" src="pics/S300/S300CB-7.jpg" onclick="changeImage(this)">
+
+      </div>
+      <div>
+        <img id="main-image" src="pics/S300/S300CB-1.jpg">
+      </div>
+    </div>
+    <div class="block">
+      <h1>S300 White</h1>
+      <div id="thumbnails2">
+        <img class="thumbnail2 selected" src="pics/S300/S300CW-1.jpg" onclick="changeImage2(this)">
+        <img class="thumbnail2" src="pics/S300/S300CW-2.jpg" onclick="changeImage2(this)">
+        <img class="thumbnail2" src="pics/S300/S300CW-3.jpg" onclick="changeImage2(this)">
+        <img class="thumbnail2" src="pics/S300/S300CW-4.jpg" onclick="changeImage2(this)">
+        <img class="thumbnail2" src="pics/S300/S300CW-5.jpg" onclick="changeImage2(this)">
+        <img class="thumbnail2" src="pics/S300/S300CW-6.jpg" onclick="changeImage2(this)">
+        <img class="thumbnail2" src="pics/S300/S300CW-7.jpg" onclick="changeImage2(this)">
+        <img class="thumbnail2" src="pics/S300/S300CW-8.jpg" onclick="changeImage2(this)">
+      </div>
+      <div>
+        <img id="main-image2" src="pics/S300/S300CW-1.jpg">
+      </div>
+    </div>
+    <script>
+      function changeImage(image) {
+        const mainImage = document.getElementById("main-image");
+        mainImage.src = image.src;
+        const thumbnails = document.getElementsByClassName("thumbnail");
+        for (let i = 0; i < thumbnails.length; i++) {
+          thumbnails[i].classList.remove("selected");
+        }
+        image.classList.add("selected");
+      }
+      function changeImage2(image) {
+        const mainImage = document.getElementById("main-image2");
+        mainImage.src = image.src;
+        const thumbnails = document.getElementsByClassName("thumbnail2");
+        for (let i = 0; i < thumbnails.length; i++) {
+          thumbnails[i].classList.remove("selected");
+        }
+        image.classList.add("selected");
+      }
+    </script>
   </div>
 </body>
 </html>
