@@ -20,3 +20,5 @@
   margin-top: 50px;
   margin-bottom: 50px;
 }
+.youtube{padding-bottom: 57%;position: relative;}
+.video-iframe{max-width: 100%;width: 100%;border: none;position: absolute;height: 100%;}
