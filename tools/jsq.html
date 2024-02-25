@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha256-YMa+wAM6QkVyz999odX7lPRxkoYAan8suedu4k2Zur8=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha256-MBffSnbbXwHCuZtgPYiwMQbfE7z+GOZ7fBPCNB06Z98=" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <!---
+  <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+  -->
+  <title>tool</title>
+</head>
+    <!-- Scripts of calculated functions  -->
+    <script>
+        function CalProfitRate(totalRMB,Profit)
+        {
+            return parseFloat(Profit/totalRMB*100).toFixed(3)+"%"
+        }
+
+        function CaleBayFVFee(totalRMB)
+        {
+            var fvfRate;
+            var intlFeeRate; // International fee
+            intlFeeRate = 0.013; // International fee
+            if (document.getElementById("computerAcc").selected) {
+                fvfRate=0.087; 
+            }else if(document.getElementById("clothesAcc").selected) {
+                fvfRate=0.1325;
+            }
+            return totalRMB * (fvfRate + intlFeeRate) + 0.3 * $("#ExchangeRate").text();
+        }
+
+        $(document).ready(function(){
+            showXr()
+            $('#c').change(function() {
+                showXr()
+            })
+
+            $("#Calculate").click(function(){
+                ExchangeRate = $("#ExchangeRate").text()
+                totalRMB = $("#TotalPrice").val() * ExchangeRate //以人民币计算
+
+                eBayFVFee=CaleBayFVFee(totalRMB)
+                AdFee = totalRMB * ($("#AdRate").val()/100)
+                PurchaseCost = $("#PurchaseCost").val()
+
+/*                 if($("#lcl").is(':checked')) {
+                    HeadCost = $("#lclCost").val();
+                }else if($("#air").is(':checked')) {
+                    HeadCost = $("#airCost").val();
+                }else {
+                    HeadCost = $("#expCost").val();
+                } */
+                //console.log($('#lcl').is(':checked'));
+                ShippingCost = $("#ShippingCost").val()
+                Profit=totalRMB-eBayFVFee-PurchaseCost-ShippingCost-AdFee  //CalProfit(totalRMB,eBayFVFee,PayPalFee,PurchaseCost,ShippingCost)
+                ProfitRate=CalProfitRate(totalRMB,Profit)
+                //Converse USD into RMB and output
+                document.getElementById("eBayFVFee").innerHTML=parseFloat(eBayFVFee).toFixed(3)
+                document.getElementById("ebfvfRate").innerHTML=parseFloat(eBayFVFee/totalRMB*100).toFixed(3)+"%"
+
+                document.getElementById("AdFee").innerHTML=parseFloat(AdFee).toFixed(3)
+                document.getElementById("AdFeeRate").innerHTML=parseFloat(AdFee/totalRMB*100).toFixed(3)+"%"
+
+                document.getElementById("Profit").innerHTML=parseFloat(Profit).toFixed(3)
+                document.getElementById("ProfitRate").innerHTML=ProfitRate
+            })
+
+
+
+        });
+
+        function showXr() {
+            switch($('#c').val()) {
+                case 'USD':
+                    $('#ExchangeRate').text(7.1)
+                    break;
+                case 'GBP':
+                    $('#ExchangeRate').text(9.1);
+                    break;
+                case 'AUD':
+                    $('#ExchangeRate').text(4.7);
+                    break;
+                case 'CAD':
+                    $('#ExchangeRate').text(5.3);
+                    break;
+                case 'EUR':
+                    $('#ExchangeRate').text(7.7);
+                    break;
+                case 'RMB':
+                    $('#ExchangeRate').text(1);
+                    break;
+            }
+        }
+    </script>
+    <style>
+        table{
+            margin:auto;
+        }
+        #navigate{
+            position:relative;
+            left:10px;
+            top:30px;
+        }
+    </style>
+</head>
+
+<body>
+
+<table border="0" cellspacing="0" style="text-align:center;">
+
+    <tr style="border:1px solid black">
+        <td>
+            <br>
+            <select>
+                <option id="clothesAcc">服饰、鞋和配饰 | 车品（成交费13.25%+跨国费1.3%+0.3）</option>
+                <option id="computerAcc">计算机/平板电脑与网络类别（成交费8.7%+跨国费1.3%+0.3）</option>
+            </select>
+            
+            <select id='c'>
+                <option selected='selected'>USD</option>
+                <option>GBP</option>
+                <option>AUD</option>
+                <option>CAD</option>
+                <option>EUR</option>
+                <option>RMB</option>
+            </select>
+            汇率：<span id="ExchangeRate"></span>
+            <br><br>
+            
+            总金额：<input type="text" id="TotalPrice" placeholder="必填" style="width:80px;"/>
+            <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+            采购成本（RMB）：<input type="text" id="PurchaseCost" placeholder="必填" style="width:80px;"/>
+            <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+            广告：<input type="text" id="AdRate" value="0" style="width:80px;"/> %
+            
+            <br><br>
+            
+            运费（RMB）：<input type="text" id="ShippingCost" placeholder="必填" style="width:80px;"/>
+            直发运费在<a href='https://www.orangeconnex.com/trackingProducts' target="_blank">橙联</a>等物流公司系统查，海外仓则为“头程+尾程”
+            
+            <br><br>
+
+        </td>
+    </tr>
+
+    <tr>
+        <td style="text-align:center;padding:30px;">
+            <input type="button" id="Calculate" value="计算" style="width:80px;height:30px;">
+        </td>
+    </tr>
+    
+</table>
+
+<table border="1" cellspacing="0" style="height:140px;width:500px;" >
+    <tr>
+        <th style="width:120px;">项目</th>
+        <th style="width:120px;">金额（RMB)</th>
+        <th style="width:120px;">占总价比</th>
+    <tr>
+        <td>eBay成交费</td>
+        <td id="eBayFVFee">&nbsp;</td>
+        <td id="ebfvfRate">&nbsp;</td>
+    </tr>
+
+    <tr>
+        <td>广告费</td>
+        <td id="AdFee">&nbsp;</td>
+        <td id="AdFeeRate">&nbsp;</td>
+    </tr>
+    <tr>
+        <td>毛利</td>
+        <td id="Profit">&nbsp;</td>
+        <td id="ProfitRate">&nbsp;</td>
+    </tr>
+
+</table>
+
+<br/>
+<br/>
+<div>
+<br>
+
+<hr>
+<br/>
+<h1 style='text-align:center'>单位转换</h1>
+<table border="1" cellspacing="0" cellpadding="11">
+	<tr>
+		<td>
+			输入cm/mm（厘米/毫米）：
+		</td>
+		<td>
+			<p>
+			<input id='cm' autofocus='autofocus' /> 
+			<span style='text-align:left;width:200px'>
+				结果: <input style='display:inline' id='inchResult' />
+				<input style='display:inline' type='button' class="copy" id='copyInch' value='复制'>
+				<label id='copied' class='success' style='display:none'>已复制</label>
+			</span>
+			</p>
+			<div class='explain'>
+			<p>输入格式例子：</p>
+			<p> - 可以是纯数字如“100”；可以是数字加cm，如“100cm”；可以是中间有连线，如“80cm-100cm”，或者“80-100cm”，或者“80-100”。</p>
+			<p> - 默认为cm。如果是mm，则需要在数字后面加上“mm”，程序才能辨认。</p>
+			</div>
+		</td>
+	
+	<tr>
+		<td>
+			输in/ft（英寸/英尺）：
+		</td>
+		<td>
+			<p>
+			<input id='inch' /> 
+			<span style='text-align:left;width:200px'>
+			结果: <input style='display:inline' id='cmResult' />
+			<input style='display:inline' type='button' class="copy" value='复制'>
+			<label class='success' style='display:none'>已复制</label>
+			</span>
+			</p>
+			<div class='explain'>
+			<p>输入格式例子：</p>
+			<p> - 默认为英寸。如果是英尺，则需要在数字后面加上“ft”，程序才能辨认。</p>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>	
+			输入g/kg（克/千克）：
+		</td>
+		<td>
+			<p>
+			<input id='g' /> 
+			<span style='text-align:left;width:300px'>
+				结果: <input style='display:inline;width:250px' id='gResult' />
+				<input style='display:inline' type='button' class="copy" id='copyG' value='复制'>
+				<label id='copiedG' class='success' style='display:none'>已复制</label>
+			</span>
+			</p>
+			<div class='explain'>
+			<p>输入格式例子：</p>
+			<p> - 可以是纯数字如“100”；可以是数字加g，如“100g”。</p>
+			<p> - 默认为g。如果是kg，则需要在数字后面加上“kg”，程序才能辨认。</p>
+			</div
+		</td>
+	</tr>
+</table>
+</body>
+</html>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	$("#cm").keyup(function(){
+		var cm = $("#cm").val();
+		var rs = spliter = '';
+		if(cm.match(/[-*xX]/)) {
+			spliter = cm.match(/[-*xX]/)[0];
+			var cms = cm.split(spliter);
+			if(cms.length!=2) {
+				$("#inchResult").html("<span id='error'>格式错误，请检查输入数据</span>");
+			}else {
+				var cm1 = cms[0].match(/[0-9]+\.?[0-9]*/); //获取第一个数字
+				var cm2 = cms[1].match(/[0-9]+\.?[0-9]*/); //获取第二个数字
+				if(cms[1].match(/mm/i)) {//如果单位是mm
+					rs = cm1/10 + spliter + cm2/10 + 'cm' +' | ' +(cm1/25.4).toFixed(1) + spliter + (cm2/25.4).toFixed(1) +'"';
+				}else {
+					rs = cm1 + spliter + cm2 + 'cm' +' | ' +(cm1/2.54).toFixed(1) + spliter + (cm2/2.54).toFixed(1) +'"';
+				}
+			}
+		}else { 
+			var cmNumber = cm.match(/[0-9]+\.?[0-9]*/)[0];// 取出数字
+			if(cm.match(/mm/i)) {//如果单位是mm
+				rs = cmNumber/10 + 'cm' + ' | ' + (cmNumber/25.4).toFixed(1) + '"';
+			}else {
+				rs = cmNumber + 'cm' + ' | ' + (cmNumber/2.54).toFixed(1) + '"';
+			}
+		}
+
+		$("#inchResult").val(rs);
+	});
+	
+	$("#g").keyup(function(){
+		var g = $("#g").val();
+		var rs = lb = oz = '';
+		if(g.match(/kg/i)){
+			g = g.match(/\d+\.?\d*/)[0] * 1000;
+		} else {
+			g = g.match(/\d+\.?\d*/)[0];
+		}
+		lb = (g * 0.0022046).toFixed(2);
+		oz = (g * 0.035274).toFixed(2);
+		rs = g + '克g' + ' | ' + lb + '磅lb' + ' | ' + oz + '盎司oz';
+
+		$("#gResult").val(rs);
+	});
+
+	$("#inch").keyup(function(){
+		var inch = $("#inch").val();
+		if(inch.match(/ft/i)){
+			inch = inch.match(/\d+\.?\d*/)[0] * 12;
+		} else {
+			inch = inch.match(/\d+\.?\d*/)[0];
+		}
+		$("#cmResult").val(inch * 2.54 + 'cm');
+	});
+	
+	$('.copy').click(function(){
+		$(this).prev().select(); // 选择对象
+		document.execCommand("Copy"); // 执行浏览器复制命令
+		$(this).next().fadeIn();
+		$(this).next().delay(1000).fadeOut('slow');
+	});
+
+});
+
+</script>
+
+<!--
+{% if latest_feedback_list %}
+    <ul>
+    {% for feedback in latest_feedback_list %}
+        <li>{{ feedback.text }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No feedback is available.</p>
+{% endif %}
+-->
+
+{% endblock content %}
+
