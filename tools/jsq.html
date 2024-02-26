@@ -13,104 +13,188 @@
 
   <title>tool</title>
 </head>
-    <!-- Scripts of calculated functions  -->
-    <script>
-        function CalProfitRate(totalRMB,Profit)
-        {
-            return parseFloat(Profit/totalRMB*100).toFixed(3)+"%"
-        }
+<!-- Scripts of calculated functions  -->
+<script>
+    function CalProfitRate(totalRMB,Profit)
+    {
+        return parseFloat(Profit/totalRMB*100).toFixed(3)+"%"
+    }
 
-        function CaleBayFVFee(totalRMB)
-        {
-            var fvfRate;
-            var intlFeeRate; // International fee
-            intlFeeRate = 0.013; // International fee
-            if (document.getElementById("computerAcc").selected) {
-                fvfRate=0.087; 
-            }else if(document.getElementById("clothesAcc").selected) {
-                fvfRate=0.1325;
-            }
-            return totalRMB * (fvfRate + intlFeeRate) + 0.3 * $("#ExchangeRate").text();
+    function CaleBayFVFee(totalRMB)
+    {
+        var fvfRate;
+        var intlFeeRate; // International fee
+        intlFeeRate = 0.013; // International fee
+        if (document.getElementById("computerAcc").selected) {
+            fvfRate=0.087; 
+        }else if(document.getElementById("clothesAcc").selected) {
+            fvfRate=0.1325;
         }
+        return totalRMB * (fvfRate + intlFeeRate) + 0.3 * $("#ExchangeRate").text();
+    }
 
-        $(document).ready(function(){
-            showXr()
-            $('#c').change(function() {
+    function showXr() {
+        switch($('#c').val()) {
+            case 'USD':
+                $('#ExchangeRate').text($('#usd').text())
+                break;
+            case 'GBP':
+                $('#ExchangeRate').text($('#gbp').text());
+                break;
+            case 'AUD':
+                $('#ExchangeRate').text($('#aud').text());
+                break;
+            case 'CAD':
+                $('#ExchangeRate').text($('#cad').text());
+                break;
+            case 'EUR':
+                $('#ExchangeRate').text($('#eur').text());
+                break;
+            case 'RMB':
+                $('#ExchangeRate').text(1);
+                break;
+        }
+    }
+
+    $(document).ready(function(){
+
+        $.ajax({
+            url: 'http://data.fixer.io/api/latest?access_key=09c13ce90daa6900faf506d32f31aae9&symbols=USD,GBP,AUD,CAD,EUR,CNY',
+            dataType: 'jsonp',
+            success: function(json) {
+
+                // exchange rata data is stored in json.rates
+                $('#usd').text((json.rates.CNY/json.rates.USD).toFixed(4));
+                $('#gbp').text((json.rates.CNY/json.rates.GBP).toFixed(4));
+                $('#aud').text((json.rates.CNY/json.rates.AUD).toFixed(4));
+                $('#cad').text((json.rates.CNY/json.rates.CAD).toFixed(4));
+                $('#eur').text((json.rates.CNY/json.rates.EUR).toFixed(4));
+
                 showXr()
-            })
+                // base currency is stored in json.base
+                //alert(json.base);
 
-            $("#Calculate").click(function(){
-                ExchangeRate = $("#ExchangeRate").text()
-                totalRMB = $("#TotalPrice").val() * ExchangeRate //以人民币计算
+                // timestamp can be accessed in json.timestamp
+                //alert(json.timestamp);
 
-                eBayFVFee=CaleBayFVFee(totalRMB)
-                AdFee = totalRMB * ($("#AdRate").val()/100)
-                PurchaseCost = $("#PurchaseCost").val()
+            }
+        })
 
-/*                 if($("#lcl").is(':checked')) {
-                    HeadCost = $("#lclCost").val();
-                }else if($("#air").is(':checked')) {
-                    HeadCost = $("#airCost").val();
+        
+        $('#c').change(function() {
+            showXr()
+        })
+
+        $("#Calculate").click(function(){
+            ExchangeRate = $("#ExchangeRate").text()
+            totalRMB = $("#TotalPrice").val() * ExchangeRate //以人民币计算
+
+            eBayFVFee=CaleBayFVFee(totalRMB)
+            AdFee = totalRMB * ($("#AdRate").val()/100)
+            PurchaseCost = $("#PurchaseCost").val()
+
+        /*  if($("#lcl").is(':checked')) {
+                HeadCost = $("#lclCost").val();
+            }else if($("#air").is(':checked')) {
+                HeadCost = $("#airCost").val();
+            }else {
+                HeadCost = $("#expCost").val();
+            } */
+            //console.log($('#lcl').is(':checked'));
+            ShippingCost = $("#ShippingCost").val()
+            Profit=totalRMB-eBayFVFee-PurchaseCost-ShippingCost-AdFee  //CalProfit(totalRMB,eBayFVFee,PayPalFee,PurchaseCost,ShippingCost)
+            ProfitRate=CalProfitRate(totalRMB,Profit)
+            //Converse USD into RMB and output
+            document.getElementById("eBayFVFee").innerHTML=parseFloat(eBayFVFee).toFixed(3)
+            document.getElementById("ebfvfRate").innerHTML=parseFloat(eBayFVFee/totalRMB*100).toFixed(3)+"%"
+
+            document.getElementById("AdFee").innerHTML=parseFloat(AdFee).toFixed(3)
+            document.getElementById("AdFeeRate").innerHTML=parseFloat(AdFee/totalRMB*100).toFixed(3)+"%"
+
+            document.getElementById("Profit").innerHTML=parseFloat(Profit).toFixed(3)
+            document.getElementById("ProfitRate").innerHTML=ProfitRate
+        })
+
+
+
+        $("#cm").keyup(function(){
+            var cm = $("#cm").val();
+            var rs = spliter = '';
+            if(cm.match(/[-*xX]/)) {
+                spliter = cm.match(/[-*xX]/)[0];
+                var cms = cm.split(spliter);
+                if(cms.length!=2) {
+                    $("#inchResult").html("<span id='error'>格式错误，请检查输入数据</span>");
                 }else {
-                    HeadCost = $("#expCost").val();
-                } */
-                //console.log($('#lcl').is(':checked'));
-                ShippingCost = $("#ShippingCost").val()
-                Profit=totalRMB-eBayFVFee-PurchaseCost-ShippingCost-AdFee  //CalProfit(totalRMB,eBayFVFee,PayPalFee,PurchaseCost,ShippingCost)
-                ProfitRate=CalProfitRate(totalRMB,Profit)
-                //Converse USD into RMB and output
-                document.getElementById("eBayFVFee").innerHTML=parseFloat(eBayFVFee).toFixed(3)
-                document.getElementById("ebfvfRate").innerHTML=parseFloat(eBayFVFee/totalRMB*100).toFixed(3)+"%"
+                    var cm1 = cms[0].match(/[0-9]+\.?[0-9]*/); //获取第一个数字
+                    var cm2 = cms[1].match(/[0-9]+\.?[0-9]*/); //获取第二个数字
+                    if(cms[1].match(/mm/i)) {//如果单位是mm
+                        rs = cm1/10 + spliter + cm2/10 + 'cm' +' | ' +(cm1/25.4).toFixed(1) + spliter + (cm2/25.4).toFixed(1) +'"';
+                    }else {
+                        rs = cm1 + spliter + cm2 + 'cm' +' | ' +(cm1/2.54).toFixed(1) + spliter + (cm2/2.54).toFixed(1) +'"';
+                    }
+                }
+            }else { 
+                var cmNumber = cm.match(/[0-9]+\.?[0-9]*/)[0];// 取出数字
+                if(cm.match(/mm/i)) {//如果单位是mm
+                    rs = cmNumber/10 + 'cm' + ' | ' + (cmNumber/25.4).toFixed(1) + '"';
+                }else {
+                    rs = cmNumber + 'cm' + ' | ' + (cmNumber/2.54).toFixed(1) + '"';
+                }
+            }
 
-                document.getElementById("AdFee").innerHTML=parseFloat(AdFee).toFixed(3)
-                document.getElementById("AdFeeRate").innerHTML=parseFloat(AdFee/totalRMB*100).toFixed(3)+"%"
+            $("#inchResult").val(rs);
+        });
+	
+        $("#g").keyup(function(){
+            var g = $("#g").val();
+            var rs = lb = oz = '';
+            if(g.match(/kg/i)){
+                g = g.match(/\d+\.?\d*/)[0] * 1000;
+            } else {
+                g = g.match(/\d+\.?\d*/)[0];
+            }
+            lb = (g * 0.0022046).toFixed(2);
+            oz = (g * 0.035274).toFixed(2);
+            rs = g + '克g' + ' | ' + lb + '磅lb' + ' | ' + oz + '盎司oz';
 
-                document.getElementById("Profit").innerHTML=parseFloat(Profit).toFixed(3)
-                document.getElementById("ProfitRate").innerHTML=ProfitRate
-            })
-
-
-
+            $("#gResult").val(rs);
         });
 
-        function showXr() {
-            switch($('#c').val()) {
-                case 'USD':
-                    $('#ExchangeRate').text(7.1)
-                    break;
-                case 'GBP':
-                    $('#ExchangeRate').text(9.1);
-                    break;
-                case 'AUD':
-                    $('#ExchangeRate').text(4.7);
-                    break;
-                case 'CAD':
-                    $('#ExchangeRate').text(5.3);
-                    break;
-                case 'EUR':
-                    $('#ExchangeRate').text(7.7);
-                    break;
-                case 'RMB':
-                    $('#ExchangeRate').text(1);
-                    break;
+        $("#inch").keyup(function(){
+            var inch = $("#inch").val();
+            if(inch.match(/ft/i)){
+                inch = inch.match(/\d+\.?\d*/)[0] * 12;
+            } else {
+                inch = inch.match(/\d+\.?\d*/)[0];
             }
-        }
-    </script>
-    <style>
-        table{
-            margin:auto;
-        }
-        .withBorder, .withBorder th, .withBorder td{
-            padding:5px;
-            border:1px solid black;
+            $("#cmResult").val(inch * 2.54 + 'cm');
+        });
+        
+        $('.copy').click(function(){
+            $(this).prev().select(); // 选择对象
+            document.execCommand("Copy"); // 执行浏览器复制命令
+            $(this).next().fadeIn();
+            $(this).next().delay(1000).fadeOut('slow');
+        });
 
-    </style>
-</head>
+
+    });
+
+</script>
+<style>
+    table{
+        margin:auto;
+    }
+    .withBorder, .withBorder th, .withBorder td{
+        padding:5px;
+        border:1px solid black;
+    }
+</style>
 
 <body>
 <h1 style="text-align:center">...</h1>
-<table border="0" cellspacing="0" style="text-align:center;">
-
+<table cellspacing="0" style="text-align:center;">
     <tr>
         <td>
             <br>
@@ -128,7 +212,7 @@
                 <option>RMB</option>
             </select>
             汇率：<span id="ExchangeRate"></span>
-            <br><br>
+            <p style="font-size:small;font-style: italic;border:5px;padding-top:5px;">USD: <span id="usd"></span>  --  GBP: <span id="gbp"></span>  --  AUD: <span id="aud"></span>  --  CAD: <span id="cad"></span>  --  EUR: <span id="eur"></span></p>
             
             总金额：<input type="text" id="TotalPrice" placeholder="必填" style="width:80px;" autofocus='autofocus' />
             <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
@@ -157,7 +241,7 @@
 <table class="withBorder" cellspacing="0" style="height:140px;width:500px;" >
     <tr>
         <th style="width:120px;">项目</th>
-        <th style="width:120px;">金额（RMB)</th>
+        <th style="width:120px;">金额(RMB)</th>
         <th style="width:120px;">占总价比</th>
     <tr>
         <td>eBay成交费</td>
@@ -243,78 +327,9 @@
 			<p>输入格式例子：</p>
 			<p> - 可以是纯数字如“100”；可以是数字加g，如“100g”。</p>
 			<p> - 默认为g。如果是kg，则需要在数字后面加上“kg”，程序才能辨认。</p>
-			</div
+            </div>
 		</td>
 	</tr>
 </table>
 </body>
 </html>
-<script type="text/javascript">
-$(document).ready(function(){
-	
-	$("#cm").keyup(function(){
-		var cm = $("#cm").val();
-		var rs = spliter = '';
-		if(cm.match(/[-*xX]/)) {
-			spliter = cm.match(/[-*xX]/)[0];
-			var cms = cm.split(spliter);
-			if(cms.length!=2) {
-				$("#inchResult").html("<span id='error'>格式错误，请检查输入数据</span>");
-			}else {
-				var cm1 = cms[0].match(/[0-9]+\.?[0-9]*/); //获取第一个数字
-				var cm2 = cms[1].match(/[0-9]+\.?[0-9]*/); //获取第二个数字
-				if(cms[1].match(/mm/i)) {//如果单位是mm
-					rs = cm1/10 + spliter + cm2/10 + 'cm' +' | ' +(cm1/25.4).toFixed(1) + spliter + (cm2/25.4).toFixed(1) +'"';
-				}else {
-					rs = cm1 + spliter + cm2 + 'cm' +' | ' +(cm1/2.54).toFixed(1) + spliter + (cm2/2.54).toFixed(1) +'"';
-				}
-			}
-		}else { 
-			var cmNumber = cm.match(/[0-9]+\.?[0-9]*/)[0];// 取出数字
-			if(cm.match(/mm/i)) {//如果单位是mm
-				rs = cmNumber/10 + 'cm' + ' | ' + (cmNumber/25.4).toFixed(1) + '"';
-			}else {
-				rs = cmNumber + 'cm' + ' | ' + (cmNumber/2.54).toFixed(1) + '"';
-			}
-		}
-
-		$("#inchResult").val(rs);
-	});
-	
-	$("#g").keyup(function(){
-		var g = $("#g").val();
-		var rs = lb = oz = '';
-		if(g.match(/kg/i)){
-			g = g.match(/\d+\.?\d*/)[0] * 1000;
-		} else {
-			g = g.match(/\d+\.?\d*/)[0];
-		}
-		lb = (g * 0.0022046).toFixed(2);
-		oz = (g * 0.035274).toFixed(2);
-		rs = g + '克g' + ' | ' + lb + '磅lb' + ' | ' + oz + '盎司oz';
-
-		$("#gResult").val(rs);
-	});
-
-	$("#inch").keyup(function(){
-		var inch = $("#inch").val();
-		if(inch.match(/ft/i)){
-			inch = inch.match(/\d+\.?\d*/)[0] * 12;
-		} else {
-			inch = inch.match(/\d+\.?\d*/)[0];
-		}
-		$("#cmResult").val(inch * 2.54 + 'cm');
-	});
-	
-	$('.copy').click(function(){
-		$(this).prev().select(); // 选择对象
-		document.execCommand("Copy"); // 执行浏览器复制命令
-		$(this).next().fadeIn();
-		$(this).next().delay(1000).fadeOut('slow');
-	});
-
-});
-
-</script>
-
-
