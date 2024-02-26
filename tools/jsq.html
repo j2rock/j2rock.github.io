@@ -59,7 +59,7 @@
     $(document).ready(function(){
 
         $.ajax({
-            url: 'http://data.fixer.io/api/latest?access_key=09c13ce90daa6900faf506d32f31aae9&symbols=USD,GBP,AUD,CAD,EUR,CNY',
+            url: 'https://api.currencyfreaks.com/v2.0/rates/latest?apikey=362768727b5542d785295ee11c7fcbc8&symbols=USD,GBP,AUD,CAD,EUR,CNY',
             dataType: 'jsonp',
             success: function(json) {
 
@@ -69,7 +69,7 @@
                 $('#aud').text((json.rates.CNY/json.rates.AUD).toFixed(4));
                 $('#cad').text((json.rates.CNY/json.rates.CAD).toFixed(4));
                 $('#eur').text((json.rates.CNY/json.rates.EUR).toFixed(4));
-              alert(json.rates.CNY);
+
                 showXr()
                 // base currency is stored in json.base
                 //alert(json.base);
