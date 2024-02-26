@@ -30,55 +30,33 @@
         }else if(document.getElementById("clothesAcc").selected) {
             fvfRate=0.1325;
         }
-        return totalRMB * (fvfRate + intlFeeRate) + 0.3 * $("#ExchangeRate").text();
+        return totalRMB * (fvfRate + intlFeeRate) + 0.3 * $("#ExchangeRate").val();
     }
 
     function showXr() {
         switch($('#c').val()) {
             case 'USD':
-                $('#ExchangeRate').text($('#usd').text())
+                $('#ExchangeRate').val($('#usd').text())
                 break;
             case 'GBP':
-                $('#ExchangeRate').text($('#gbp').text());
+                $('#ExchangeRate').val($('#gbp').text());
                 break;
             case 'AUD':
-                $('#ExchangeRate').text($('#aud').text());
+                $('#ExchangeRate').val($('#aud').text());
                 break;
             case 'CAD':
-                $('#ExchangeRate').text($('#cad').text());
+                $('#ExchangeRate').val($('#cad').text());
                 break;
             case 'EUR':
-                $('#ExchangeRate').text($('#eur').text());
+                $('#ExchangeRate').val($('#eur').text());
                 break;
             case 'RMB':
-                $('#ExchangeRate').text(1);
+                $('#ExchangeRate').val(1);
                 break;
         }
     }
 
     $(document).ready(function(){
-
-        $.ajax({
-            url: 'https://api.currencyfreaks.com/v2.0/rates/latest?apikey=362768727b5542d785295ee11c7fcbc8&symbols=USD,GBP,AUD,CAD,EUR,CNY',
-            dataType: 'jsonp',
-            success: function(json) {
-
-                // exchange rata data is stored in json.rates
-                $('#usd').text((json.rates.CNY/json.rates.USD).toFixed(4));
-                $('#gbp').text((json.rates.CNY/json.rates.GBP).toFixed(4));
-                $('#aud').text((json.rates.CNY/json.rates.AUD).toFixed(4));
-                $('#cad').text((json.rates.CNY/json.rates.CAD).toFixed(4));
-                $('#eur').text((json.rates.CNY/json.rates.EUR).toFixed(4));
-
-                showXr()
-                // base currency is stored in json.base
-                //alert(json.base);
-
-                // timestamp can be accessed in json.timestamp
-                //alert(json.timestamp);
-
-            }
-        })
 
         showXr()
 
@@ -87,7 +65,7 @@
         })
 
         $("#Calculate").click(function(){
-            ExchangeRate = $("#ExchangeRate").text()
+            ExchangeRate = $("#ExchangeRate").val()
             totalRMB = $("#TotalPrice").val() * ExchangeRate //以人民币计算
 
             eBayFVFee=CaleBayFVFee(totalRMB)
@@ -186,6 +164,7 @@
 <style>
     table{
         margin:auto;
+        text-align:left;
     }
     .withBorder, .withBorder th, .withBorder td{
         padding:5px;
@@ -195,7 +174,7 @@
 
 <body>
 <h1 style="text-align:center">...</h1>
-<table cellspacing="0" style="text-align:center;">
+<table style="width:fit-content;">
     <tr>
         <td>
             <br>
@@ -212,44 +191,45 @@
                 <option>EUR</option>
                 <option>RMB</option>
             </select>
-            汇率：<span id="ExchangeRate"></span>
-            <p style="font-size:small;font-style: italic;border:5px;padding-top:5px;">USD: <span id="usd">7.19</span>  --  GBP: <span id="gbp">9.12</span>  --  AUD: <span id="aud"></span>  --  CAD: <span id="cad">5.33</span>  --  EUR: <span id="eur">7.8</span></p>
+            汇率：<input id="ExchangeRate" style="width:50px;"/>
+            <p style="font-size:small;font-style: italic;border:5px;padding-top:5px;">
+                USD: <span id="usd">7.19</span>  --  GBP: <span id="gbp">9.12</span>  --  AUD: <span id="aud"></span>  --  CAD: <span id="cad">5.33</span>  --  EUR: <span id="eur">7.8</span> == 误差大则自行百度输入
+            </p>
             
-            总金额：<input type="text" id="TotalPrice" placeholder="必填" style="width:80px;" autofocus='autofocus' />
-            <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-            采购成本（RMB）：<input type="text" id="PurchaseCost" placeholder="必填" style="width:80px;"/>
-            <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-            广告：<input type="text" id="AdRate" value="0" style="width:80px;"/> %
-            
-            <br><br>
-            
-            运费（RMB）：<input type="text" id="ShippingCost" placeholder="必填" style="width:80px;"/>
+            <p>
+                总金额：<input type="text" id="TotalPrice" placeholder="必填" style="width:80px;" autofocus='autofocus' />
+            <p>
+            <p>
+                采购成本（RMB）：<input type="text" id="PurchaseCost" placeholder="必填" style="width:80px;"/>
+            </p>
+            <p>
+                广告：<input type="text" id="AdRate" value="0" style="width:80px;"/> %
+            </p>
+            <p>          
+                运费（RMB）：<input type="text" id="ShippingCost" placeholder="必填" style="width:80px;"/>
             直发运费在<a href='https://www.orangeconnex.com/trackingProducts' target="_blank">橙联</a>等物流公司系统查，海外仓则为“头程+尾程”
-            
-            <br><br>
-
-        </td>
-    </tr>
-
-    <tr>
-        <td style="text-align:center;padding:30px;">
-            <input type="button" id="Calculate" value="计算" style="width:80px;height:30px;">
+            </p>
+            <p style="text-align: center;">
+                <input type="button" id="Calculate" value="计算" style="width:80px;height:30px;" />
+            </p>
         </td>
     </tr>
     
 </table>
 
-<table class="withBorder" cellspacing="0" style="height:140px;width:500px;" >
+<table class="withBorder">
+
     <tr>
         <th style="width:120px;">项目</th>
         <th style="width:120px;">金额(RMB)</th>
         <th style="width:120px;">占总价比</th>
+    </tr>
+    
     <tr>
         <td>eBay成交费</td>
         <td id="eBayFVFee">&nbsp;</td>
         <td id="ebfvfRate">&nbsp;</td>
     </tr>
-
     <tr>
         <td>广告费</td>
         <td id="AdFee">&nbsp;</td>
@@ -260,7 +240,6 @@
         <td id="Profit">&nbsp;</td>
         <td id="ProfitRate">&nbsp;</td>
     </tr>
-
 </table>
 
 <br/>
