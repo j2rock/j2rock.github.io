@@ -59,7 +59,7 @@
     $(document).ready(function(){
 
         $.ajax({
-            url: 'https://data.fixer.io/api/latest?access_key=09c13ce90daa6900faf506d32f31aae9&symbols=USD,GBP,AUD,CAD,EUR,CNY',
+            url: 'http://data.fixer.io/api/latest?access_key=09c13ce90daa6900faf506d32f31aae9&symbols=USD,GBP,AUD,CAD,EUR,CNY',
             dataType: 'jsonp',
             success: function(json) {
 
@@ -69,7 +69,7 @@
                 $('#aud').text((json.rates.CNY/json.rates.AUD).toFixed(4));
                 $('#cad').text((json.rates.CNY/json.rates.CAD).toFixed(4));
                 $('#eur').text((json.rates.CNY/json.rates.EUR).toFixed(4));
-
+              alert(json.rates.CNY);
                 showXr()
                 // base currency is stored in json.base
                 //alert(json.base);
@@ -213,7 +213,7 @@
                 <option>RMB</option>
             </select>
             汇率：<span id="ExchangeRate"></span>
-            <p style="font-size:small;font-style: italic;border:5px;padding-top:5px;">USD: <span id="usd">7.19</span>  --  GBP: <span id="gbp">9.12</span>  --  AUD: <span id="aud">4.71</span>  --  CAD: <span id="cad">5.33</span>  --  EUR: <span id="eur">7.8</span></p>
+            <p style="font-size:small;font-style: italic;border:5px;padding-top:5px;">USD: <span id="usd">7.19</span>  --  GBP: <span id="gbp">9.12</span>  --  AUD: <span id="aud"></span>  --  CAD: <span id="cad">5.33</span>  --  EUR: <span id="eur">7.8</span></p>
             
             总金额：<input type="text" id="TotalPrice" placeholder="必填" style="width:80px;" autofocus='autofocus' />
             <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
