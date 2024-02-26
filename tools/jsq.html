@@ -9,6 +9,8 @@
   <!---
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   -->
+  <link rel="stylesheet" type="text/css" href="../components/style.css">
+
   <title>tool</title>
 </head>
     <!-- Scripts of calculated functions  -->
@@ -98,19 +100,18 @@
         table{
             margin:auto;
         }
-        #navigate{
-            position:relative;
-            left:10px;
-            top:30px;
-        }
+        .withBorder, .withBorder th, .withBorder td{
+            padding:5px;
+            border:1px solid black;
+
     </style>
 </head>
 
 <body>
-<h1>...</h1>
+<h1 style="text-align:center">...</h1>
 <table border="0" cellspacing="0" style="text-align:center;">
 
-    <tr style="border:1px solid black">
+    <tr>
         <td>
             <br>
             <select>
@@ -129,7 +130,7 @@
             汇率：<span id="ExchangeRate"></span>
             <br><br>
             
-            总金额：<input type="text" id="TotalPrice" placeholder="必填" style="width:80px;"/>
+            总金额：<input type="text" id="TotalPrice" placeholder="必填" style="width:80px;" autofocus='autofocus' />
             <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
             采购成本（RMB）：<input type="text" id="PurchaseCost" placeholder="必填" style="width:80px;"/>
             <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
@@ -153,7 +154,7 @@
     
 </table>
 
-<table border="1" cellspacing="0" style="height:140px;width:500px;" >
+<table class="withBorder" cellspacing="0" style="height:140px;width:500px;" >
     <tr>
         <th style="width:120px;">项目</th>
         <th style="width:120px;">金额（RMB)</th>
@@ -185,14 +186,14 @@
 <hr>
 <br/>
 <h1 style='text-align:center'>单位转换</h1>
-<table border="1" cellspacing="0" cellpadding="11">
+<table class="withBorder"> 
 	<tr>
 		<td>
 			输入cm/mm（厘米/毫米）：
 		</td>
 		<td>
 			<p>
-			<input id='cm' autofocus='autofocus' /> 
+			<input id='cm' > 
 			<span style='text-align:left;width:200px'>
 				结果: <input style='display:inline' id='inchResult' />
 				<input style='display:inline' type='button' class="copy" id='copyInch' value='复制'>
@@ -316,17 +317,4 @@ $(document).ready(function(){
 
 </script>
 
-<!--
-{% if latest_feedback_list %}
-    <ul>
-    {% for feedback in latest_feedback_list %}
-        <li>{{ feedback.text }}</li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No feedback is available.</p>
-{% endif %}
--->
-
-{% endblock content %}
 
