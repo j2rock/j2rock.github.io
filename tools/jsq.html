@@ -59,7 +59,7 @@
     $(document).ready(function(){
 
         $.ajax({
-            url: 'http://data.fixer.io/api/latest?access_key=09c13ce90daa6900faf506d32f31aae9&symbols=USD,GBP,AUD,CAD,EUR,CNY',
+            url: 'https://data.fixer.io/api/latest?access_key=09c13ce90daa6900faf506d32f31aae9&symbols=USD,GBP,AUD,CAD,EUR,CNY',
             dataType: 'jsonp',
             success: function(json) {
 
@@ -80,7 +80,8 @@
             }
         })
 
-        
+        showXr()
+
         $('#c').change(function() {
             showXr()
         })
