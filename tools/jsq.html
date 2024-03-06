@@ -167,7 +167,7 @@
         text-align:left;
     }
     .withBorder, .withBorder th, .withBorder td{
-        padding:5px;
+        padding:10px;
         border:1px solid black;
     }
 </style>
@@ -176,8 +176,8 @@
 <h1 style="text-align:center">...</h1>
 <table style="width:fit-content;">
     <tr>
-        <td>
-            <br>
+        <td style="border-left:1px solid black;padding-left: 20px;">
+
             <select>
                 <option id="clothesAcc">服饰、鞋和配饰 | 车品（成交费13.25%+跨国费1.3%+0.3）</option>
                 <option id="computerAcc">计算机/平板电脑与网络类别（成交费8.7%+跨国费1.3%+0.3）</option>
@@ -209,9 +209,11 @@
                 运费（RMB）：<input type="text" id="ShippingCost" placeholder="必填" style="width:80px;"/>
             直发运费在<a href='https://www.orangeconnex.com/trackingProducts' target="_blank">橙联</a>等物流公司系统查，海外仓则为“头程+尾程”
             </p>
-            <p style="text-align: center;">
-                <input type="button" id="Calculate" value="计算" style="width:80px;height:30px;" />
-            </p>
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align: center;padding:20px;">
+            <input type="button" id="Calculate" value="计算" style="width:80px;height:30px;" />
         </td>
     </tr>
     
@@ -311,5 +313,6 @@
 		</td>
 	</tr>
 </table>
+<br/><br/>
 </body>
 </html>
