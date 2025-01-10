@@ -28,13 +28,42 @@ function checkSystemDarkMode() {
   });
 }
 
-// 加载共用的头部
+// 首页专用的头部加载函数
+function loadIndexHeader() {
+    const headerHTML = `
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <script>
+          (function() {
+            const userPreference = localStorage.getItem('darkMode');
+            if (userPreference === 'enabled') {
+              document.documentElement.classList.add('dark-mode');
+            } else if (userPreference === 'disabled') {
+              document.documentElement.classList.remove('dark-mode');
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+              document.documentElement.classList.add('dark-mode');
+            }
+          })();
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha256-YMa+wAM6QkVyz999odX7lPRxkoYAan8suedu4k2Zur8=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha256-MBffSnbbXwHCuZtgPYiwMQbfE7z+GOZ7fBPCNB06Z98=" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="components/style.css">
+        <title>MINI N GEEK ITX Cases</title>
+      </head>
+    `;
+    document.head.innerHTML = headerHTML;
+    checkSystemDarkMode();
+}
+  
+// 加载二级文件里共用的头部
 function loadCommonHeader(productName) {
   const headerHTML = `
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="icon" type="image/x-icon" href="../favicon.ico">
+      <link rel="icon" type="image/x-icon" href="../favicon.png">
       <script>
         (function() {
           const userPreference = localStorage.getItem('darkMode');
@@ -168,35 +197,6 @@ function createProductCard(productModel, imageCount) {
       </div>
     </div>
   `;
-}
-
-// 首页专用的头部加载函数
-function loadIndexHeader() {
-  const headerHTML = `
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="icon" type="image/x-icon" href="favicon.ico">
-      <script>
-        (function() {
-          const userPreference = localStorage.getItem('darkMode');
-          if (userPreference === 'enabled') {
-            document.documentElement.classList.add('dark-mode');
-          } else if (userPreference === 'disabled') {
-            document.documentElement.classList.remove('dark-mode');
-          } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.classList.add('dark-mode');
-          }
-        })();
-      </script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha256-YMa+wAM6QkVyz999odX7lPRxkoYAan8suedu4k2Zur8=" crossorigin="anonymous"></script>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha256-MBffSnbbXwHCuZtgPYiwMQbfE7z+GOZ7fBPCNB06Z98=" crossorigin="anonymous">
-      <link rel="stylesheet" type="text/css" href="components/style.css">
-      <title>MINI N GEEK ITX Cases</title>
-    </head>
-  `;
-  document.head.innerHTML = headerHTML;
-  checkSystemDarkMode();
 }
 
 // 修改暗黑模式切换按钮
