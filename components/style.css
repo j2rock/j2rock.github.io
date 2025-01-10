@@ -1,4 +1,3 @@
-
 .thumbnail, .thumbnail2 {
   width: 80px;
   margin: 4px;
@@ -33,6 +32,82 @@ body {
 }
 
 .dark-mode {
-  background-color: #333;
-  color: #eeeeee;
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+.dark-mode .card {
+  background-color: #2d2d2d;
+  border-color: #404040;
+}
+
+.dark-mode .card-body {
+  color: #ffffff;
+}
+
+.dark-mode .btn-outline-primary {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+.dark-mode .btn-outline-primary:hover {
+  background-color: #ffffff;
+  color: #1a1a1a;
+}
+
+/* 添加暗黑模式切换按钮样式 */
+.dark-mode-toggle-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.dark-mode-toggle {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  transition: background-color 0.3s;
+}
+
+.dark-mode-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* 修改暗黑模式样式 */
+.dark-mode {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+.dark-mode .dark-mode-toggle {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode .dark-mode-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* 修改选择器，使其同时作用于 html 和 body */
+html.dark-mode,
+body.dark-mode {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+/* 添加预加载样式以防闪烁 */
+html {
+  visibility: visible;
+  opacity: 1;
+  transition: background-color 1s ease;
 }

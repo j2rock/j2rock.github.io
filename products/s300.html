@@ -1,95 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha256-YMa+wAM6QkVyz999odX7lPRxkoYAan8suedu4k2Zur8=" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha256-MBffSnbbXwHCuZtgPYiwMQbfE7z+GOZ7fBPCNB06Z98=" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="../components/style.css">
-  <title>Miningeek</title>
-
-</head>
-<body>
-  <script src="../components/script.js"></script>
-  <div class="container">
-    <div class="block">
-      <p><a href="../index.html" id="pagetop">HOME</a></p>
-      <div><a href="#picgroup1">S300 Black Gallery</a></div>
-      <div><a href="#picgroup2">S300 White Gallery</a></div>
-      <div><a href="#man">Manual</a></div>
-      <div><a href="#install">Installation Guide</a></div>
-    </div>
-    <div class="block">
-      <h1><a id="picgroup1">S300 Black</a></h1>
-      <div id="thumbnails">
-        <img class="thumbnail selected" src="pics/S300/S300CB-1.jpg" onclick="changeImage(this)">
-        <img class="thumbnail" src="pics/S300/S300CB-2.jpg" onclick="changeImage(this)">
-        <img class="thumbnail" src="pics/S300/S300CB-3.jpg" onclick="changeImage(this)">
-        <img class="thumbnail" src="pics/S300/S300CB-4.jpg" onclick="changeImage(this)">
-        <img class="thumbnail" src="pics/S300/S300CB-5.jpg" onclick="changeImage(this)">
-        <img class="thumbnail" src="pics/S300/S300CB-6.jpg" onclick="changeImage(this)">
-        <img class="thumbnail" src="pics/S300/S300CB-7.jpg" onclick="changeImage(this)">
-
-      </div>
-      <div>
-        <img id="main-image" src="pics/S300/S300CB-1.jpg">
-      </div>
-    </div>
-    <div class="block">
-      <h1><a id="picgroup2">S300 White</a></h1>
-      <a href="#top">Go to top</a>
-      <div id="thumbnails2">
-        <img class="thumbnail2 selected" src="pics/S300/S300CW-1.jpg" onclick="changeImage2(this)">
-        <img class="thumbnail2" src="pics/S300/S300CW-2.jpg" onclick="changeImage2(this)">
-        <img class="thumbnail2" src="pics/S300/S300CW-3.jpg" onclick="changeImage2(this)">
-        <img class="thumbnail2" src="pics/S300/S300CW-4.jpg" onclick="changeImage2(this)">
-        <img class="thumbnail2" src="pics/S300/S300CW-5.jpg" onclick="changeImage2(this)">
-        <img class="thumbnail2" src="pics/S300/S300CW-6.jpg" onclick="changeImage2(this)">
-        <img class="thumbnail2" src="pics/S300/S300CW-7.jpg" onclick="changeImage2(this)">
-        <img class="thumbnail2" src="pics/S300/S300CW-8.jpg" onclick="changeImage2(this)">
-      </div>
-      <div>
-        <img id="main-image2" src="pics/S300/S300CW-1.jpg">
-      </div>
-    </div>
-
-    <div class="block">
-      <h1><a id="man">Manual</a></h1>
-      <a href="#top">Go to top</a>
-      <div>
-        <a href="pdfs/s300.manual.pdf">S300 Manual PDF</a>
-        <image width="100%" src="pics/S300/S300-Manual-pic.png"></image>
-      </div>
-    </div>
-
-    <div class="block">
-      <h1><a id="install">Simple Installation Guide</a></h1>
-      <a href="#top">Go to top</a>
-      <div class="youtube">
-        <iframe width="100%" class="video-iframe" src="https://www.youtube.com/embed/zrYRh5UibrU?si=L8TAywvUz7axNffp" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-      </div>
-    </div>
+<script src="../components/common.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    loadCommonHeader('S300');
+    loadCommonNav('S300');
+    loadDarkModeToggle();
+    loadImageHandlers();
     
-    <script>
-      function changeImage(image) {
-        const mainImage = document.getElementById("main-image");
-        mainImage.src = image.src;
-        const thumbnails = document.getElementsByClassName("thumbnail");
-        for (let i = 0; i < thumbnails.length; i++) {
-          thumbnails[i].classList.remove("selected");
-        }
-        image.classList.add("selected");
-      }
-      function changeImage2(image) {
-        const mainImage = document.getElementById("main-image2");
-        mainImage.src = image.src;
-        const thumbnails = document.getElementsByClassName("thumbnail2");
-        for (let i = 0; i < thumbnails.length; i++) {
-          thumbnails[i].classList.remove("selected");
-        }
-        image.classList.add("selected");
-      }
-    </script>
+    const container = document.querySelector('.container');
+    container.innerHTML += createGallerySection('S300', 'Black', 8);
+    container.innerHTML += createGallerySection('S300', 'White', 8);
+    container.innerHTML += createManualSection('S300');
+    container.innerHTML += createInstallGuideSection('YOUR_S300_VIDEO_ID');
+  });
+</script>
+<body>
+  <div class="container">
   </div>
 </body>
 </html>
