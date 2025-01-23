@@ -50,7 +50,7 @@ function loadIndexHeader() {
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha256-YMa+wAM6QkVyz999odX7lPRxkoYAan8suedu4k2Zur8=" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha256-MBffSnbbXwHCuZtgPYiwMQbfE7z+GOZ7fBPCNB06Z98=" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="components/style.css">
-        <title>MINI N GEEK ITX Cases</title>
+        <title>MG</title>
       </head>
     `;
     document.head.innerHTML = headerHTML;
