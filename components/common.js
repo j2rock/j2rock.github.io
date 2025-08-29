@@ -28,57 +28,13 @@ function checkSystemDarkMode() {
   });
 }
 
-// 首页专用的头部加载函数
-function loadIndexHeader() {
-    const headerHTML = `
-      <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" type="image/x-icon" href="favicon.png">
-        <script>
-          (function() {
-            var productionHosts = ['j2rock.github.io'];
-            if (productionHosts.indexOf(location.hostname) !== -1) {
-              var gaScript = document.createElement('script');
-              gaScript.async = true;
-              gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-HFDKSB2XN9';
-              document.head.appendChild(gaScript);
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);} window.gtag = gtag;
-              gtag('js', new Date());
-              gtag('config', 'G-HFDKSB2XN9');
-            }
-          })();
-        </script>
-        <script>
-          (function() {
-            const userPreference = localStorage.getItem('darkMode');
-            if (userPreference === 'enabled') {
-              document.documentElement.classList.add('dark-mode');
-            } else if (userPreference === 'disabled') {
-              document.documentElement.classList.remove('dark-mode');
-            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-              document.documentElement.classList.add('dark-mode');
-            }
-          })();
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha256-YMa+wAM6QkVyz999odX7lPRxkoYAan8suedu4k2Zur8=" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha256-MBffSnbbXwHCuZtgPYiwMQbfE7z+GOZ7fBPCNB06Z98=" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="components/style.css">
-        <title>MG</title>
-      </head>
-    `;
-    document.head.innerHTML = headerHTML;
-    checkSystemDarkMode();
-}
-  
-// 加载二级文件里共用的头部
-function loadCommonHeader(productName) {
+// 统一的头部加载函数：basePath 为相对根路径（如 '' 或 '../'），pageTitle 为标题
+function loadHeader(basePath, pageTitle) {
   const headerHTML = `
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="icon" type="image/x-icon" href="../favicon.png">
+      <link rel="icon" type="image/x-icon" href="${basePath}favicon.png">
       <script>
         (function() {
           var productionHosts = ['j2rock.github.io'];
@@ -107,9 +63,9 @@ function loadCommonHeader(productName) {
         })();
       </script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha256-YMa+wAM6QkVyz999odX7lPRxkoYAan8suedu4k2Zur8=" crossorigin="anonymous"></script>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha256-MBffSnbbXwHCuZtgPYiwMQbfE7z+GOZ7fBPCNB06Z98=" crossorigin="anonymous">
-      <link rel="stylesheet" type="text/css" href="../components/style.css">
-      <title>${productName} ITX Case</title>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha256-MBffSnbbXwHCuZtgPYiwMQbfE7z+GOZ7fBPCNB06Z98" crossorigin="anonymous">
+      <link rel="stylesheet" type="text/css" href="${basePath}components/style.css">
+      <title>${pageTitle}</title>
     </head>
   `;
   document.head.innerHTML = headerHTML;
@@ -125,7 +81,10 @@ function loadCommonNav(productModel) {
       <a href="../index.html" id="pagetop">HOME</a> | 
       <a href="../products/s400.html">S400</a> | 
       <a href="../products/s300.html">S300</a> | 
-      <a href="../products/g200.html">G200</a>
+      <a href="../products/gm100.html">GM100</a> |
+      <a href="../products/e02.html">E02</a> | 
+      <a href="../products/w01.html">W01</a> | 
+      <a href="../products/e02h24.html">E02H24</a>
     </p>
     <div><a href="#picgroup1">${productModel} Black Gallery</a></div>
     <div><a href="#picgroup2">${productModel} White Gallery</a></div>
@@ -145,14 +104,14 @@ function createGallerySection(productModel, color, imageCount) {
         ${Array.from({length: imageCount}, (_, i) => i + 1)
           .map(num => `
             <img class="thumbnail${color === 'White' ? '2' : ''} ${num === 1 ? 'selected' : ''}" 
-                 src="pics/${productModel}/${productModel}C${color === 'White' ? 'W' : 'B'}-${num}.jpg" 
+                 src="pics/${productModel}/${productModel}${color === '' ? '' : color === 'White' ? 'CW' : 'CB'}-${num}.jpg" 
                  onclick="changeImage${color === 'White' ? '2' : ''}(this)"
             >
           `).join('')}
       </div>
       <div>
         <img id="main-image${color === 'White' ? '2' : ''}" 
-             src="pics/${productModel}/${productModel}C${color === 'White' ? 'W' : 'B'}-1.jpg">
+             src="pics/${productModel}/${productModel}${color === '' ? '' : (color === 'White' ? 'CW' : 'CB')}-1.jpg">
       </div>
     </div>
   `;
@@ -214,14 +173,13 @@ function loadImageHandlers() {
 }
 
 // 创建首页产品卡片
-function createProductCard(productModel, imageCount) {
+function createProductCard(productModel) {
   return `
     <div class="col-md-4">
       <div class="card">
-        <img src="products/pics/${productModel}/${productModel}CB-1.jpg" class="card-img-top" alt="${productModel}">
+        <img src="products/pics/${productModel}/${productModel}${['S400', 'S300', 'GM100'].includes(productModel) ? 'CB' : ''}-1.jpg" class="card-img-top" alt="${productModel}">
         <div class="card-body">
-          <h5 class="card-title">${productModel} ITX Case</h5>
-          <p class="card-text">Available in Black & White</p>
+          <h5 class="card-title">${productModel}</h5>
           <a href="products/${productModel.toLowerCase()}.html" class="btn btn-primary">Learn More</a>
         </div>
       </div>

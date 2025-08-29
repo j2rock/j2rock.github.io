@@ -3,20 +3,35 @@
 <script src="components/common.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    loadIndexHeader();
+    loadHeader('', 'MG');
     loadDarkModeToggle();
     
     const container = document.querySelector('.container');
-    const productsRow = document.createElement('div');
-    productsRow.className = 'row';
+    const itxHeader = document.createElement('div');
+    itxHeader.className = 'mt-5 mb-3';
+    itxHeader.innerHTML = '<h2>ITX Cases</h2>';
+    container.appendChild(itxHeader);
     
-    // 添加所有产品卡片
-    productsRow.innerHTML = 
+    const itxRow = document.createElement('div');
+    itxRow.className = 'row';
+    itxRow.innerHTML = 
       createProductCard('S400') +
       createProductCard('S300') +
-      createProductCard('G200');
-    
-    container.appendChild(productsRow);
+      createProductCard('GM100');
+    container.appendChild(itxRow);
+
+    const openAirHeader = document.createElement('div');
+    openAirHeader.className = 'mt-5 mb-3';
+    openAirHeader.innerHTML = '<h2>Open Air Cases</h2>';
+    container.appendChild(openAirHeader);
+
+    const openAirRow = document.createElement('div');
+    openAirRow.className = 'row';
+    openAirRow.innerHTML = 
+      createProductCard('E02') +
+      createProductCard('W01') +
+      createProductCard('E02H24');
+    container.appendChild(openAirRow);
   });
 </script>
 <body>

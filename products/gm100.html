@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<script src="../components/common.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    loadHeader('../', 'GM100');
+    loadCommonNav('GM100');
+    loadDarkModeToggle();
+    loadImageHandlers();
+    
+    const container = document.querySelector('.container');
+    container.innerHTML += createGallerySection('GM100', 'Black', 6);
+    container.innerHTML += createGallerySection('GM100', 'White', 3);
+    container.innerHTML += createManualSection('GM100');
+    container.innerHTML += createInstallGuideSection('YOUR_GM100_VIDEO_ID');
+  });
+</script>
+<body>
+  <div class="container">
+  </div>
+</body>
+</html>

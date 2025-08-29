@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<script src="../components/common.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    loadHeader('../', 'W01');
+    loadCommonNav('W01');
+    loadDarkModeToggle();
+    loadImageHandlers();
+
+    const container = document.querySelector('.container');
+    container.innerHTML += createGallerySection('W01', '', 8);
+    container.innerHTML += createManualSection('W01');
+    container.innerHTML += createInstallGuideSection('YOUR_W01_VIDEO_ID');
+  });
+</script>
+<body>
+  <div class="container">
+  </div>
+  
+</body>
+</html>
+
+

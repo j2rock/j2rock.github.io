@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<script src="../components/common.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    loadHeader('../', 'E02H24');
+    loadCommonNav('E02H24');
+    loadDarkModeToggle();
+    loadImageHandlers();
+
+    const container = document.querySelector('.container');
+    container.innerHTML += createGallerySection('E02H24', '', 7);
+    container.innerHTML += createManualSection('E02H24');
+    container.innerHTML += createInstallGuideSection('YOUR_E02H24_VIDEO_ID');
+  });
+</script>
+<body>
+  <div class="container">
+  </div>
+  
+</body>
+</html>
+
+
