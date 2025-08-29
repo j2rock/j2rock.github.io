@@ -37,6 +37,21 @@ function loadIndexHeader() {
         <link rel="icon" type="image/x-icon" href="favicon.png">
         <script>
           (function() {
+            var productionHosts = ['j2rock.github.io'];
+            if (productionHosts.indexOf(location.hostname) !== -1) {
+              var gaScript = document.createElement('script');
+              gaScript.async = true;
+              gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-HFDKSB2XN9';
+              document.head.appendChild(gaScript);
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);} window.gtag = gtag;
+              gtag('js', new Date());
+              gtag('config', 'G-HFDKSB2XN9');
+            }
+          })();
+        </script>
+        <script>
+          (function() {
             const userPreference = localStorage.getItem('darkMode');
             if (userPreference === 'enabled') {
               document.documentElement.classList.add('dark-mode');
@@ -64,6 +79,21 @@ function loadCommonHeader(productName) {
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="icon" type="image/x-icon" href="../favicon.png">
+      <script>
+        (function() {
+          var productionHosts = ['j2rock.github.io'];
+          if (productionHosts.indexOf(location.hostname) !== -1) {
+            var gaScript = document.createElement('script');
+            gaScript.async = true;
+            gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-HFDKSB2XN9';
+            document.head.appendChild(gaScript);
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);} window.gtag = gtag;
+            gtag('js', new Date());
+            gtag('config', 'G-HFDKSB2XN9');
+          }
+        })();
+      </script>
       <script>
         (function() {
           const userPreference = localStorage.getItem('darkMode');
