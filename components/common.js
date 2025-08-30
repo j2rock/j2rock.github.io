@@ -180,11 +180,38 @@ function createProductCard(productModel) {
         <img src="products/pics/${productModel}/${productModel}${['S400', 'S300', 'GM100'].includes(productModel) ? 'CB' : ''}-1.jpg" class="card-img-top" alt="${productModel}">
         <div class="card-body">
           <h5 class="card-title">${productModel}</h5>
-          <a href="products/${productModel.toLowerCase()}.html" class="btn btn-primary">Learn More</a>
+          <div class="d-flex gap-2">
+            <a href="products/${productModel.toLowerCase()}.html" class="btn btn-primary">Learn More</a>
+            ${ productModel != 'S300' ? `<a href="https://amazon.com/dp/${getAmazonASIN(productModel)}" target="_blank" class="btn btn-success">Shop</a>` : ''}
+          </div>
         </div>
       </div>
     </div>
   `;
+}
+
+// 创建商店按钮
+function createShopButton(productModel) {
+  return `
+    <div class="text-center mb-4">
+      <a href="https://amazon.com/dp/${getAmazonASIN(productModel)}" target="_blank" class="btn btn-success btn-lg">
+        Shop ${productModel} on Amazon
+      </a>
+    </div>
+  `;
+}
+
+// 获取Amazon ASIN
+function getAmazonASIN(productModel) {
+  const asinMap = {
+    'S400': 'B0F24CL2YZ',
+
+    'GM100': 'B0CSX8W1SD',
+    'E02': 'B0CT3KH4L4',
+    'E02H24': 'B0D69J9HDQ',
+    'W01': 'B0CT3SFYY9'
+  };
+  return asinMap[productModel] || 'B0XXXXXXXXX';
 }
 
 // 修改暗黑模式切换按钮
