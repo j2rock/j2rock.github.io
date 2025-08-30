@@ -32,6 +32,12 @@
       createProductCard('W01') +
       createProductCard('E02H24');
     container.appendChild(openAirRow);
+
+    const footerTop = document.createElement('div');
+    footerTop.innerHTML = '<br><br><br>';
+    container.appendChild(footerTop);
+    
+    loadFooter();
   });
 </script>
 <body>

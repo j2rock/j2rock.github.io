@@ -204,3 +204,15 @@ window.toggleDarkMode = function() {
   const isDarkMode = document.body.classList.toggle('dark-mode');
   localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
 } 
+
+// 加载页脚
+function loadFooter() {
+  const footer = document.createElement('footer');
+  footer.className = 'm-5 pt-4 pb-5 border-top';
+  footer.innerHTML = `
+    <div class="container">
+      <a href="mailto:jc@miningeek.com">Contact Us</a>
+    </div>
+  `;
+  document.body.appendChild(footer);
+} 
