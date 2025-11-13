@@ -135,7 +135,7 @@ function createManualSection(productModel) {
 function createInstallGuideSection(videoId) {
   return `
     <div class="block">
-      <h1><a id="install">Installation Guide</a></h1>
+      <h1><a id="install">Installation video</a></h1>
       <a href="#top">Go to top</a>
       <div class="youtube">
         <iframe width="100%" class="video-iframe" 
