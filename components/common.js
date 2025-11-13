@@ -177,7 +177,9 @@ function createProductCard(productModel) {
   return `
     <div class="col-md-4">
       <div class="card">
-        <img src="products/pics/${productModel}/${productModel}${['S400', 'S300', 'GM100'].includes(productModel) ? 'CB' : ''}-1.jpg" class="card-img-top" alt="${productModel}">
+        <a href="products/${productModel.toLowerCase()}.html">
+          <img src="products/pics/${productModel}/${productModel}${['S400', 'S300', 'GM100'].includes(productModel) ? 'CB' : ''}-1.jpg" class="card-img-top" alt="${productModel}">
+        </a>
         <div class="card-body">
           <h5 class="card-title">${productModel}</h5>
           <div class="d-flex gap-2">
