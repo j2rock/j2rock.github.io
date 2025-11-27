@@ -184,7 +184,6 @@ function createProductCard(productModel) {
           <h5 class="card-title">${productModel}</h5>
           <div class="d-flex gap-2">
             <a href="products/${productModel.toLowerCase()}.html" class="btn btn-primary">Learn More</a>
-            ${ productModel != 'S300' ? `<a href="https://amazon.com/dp/${getAmazonASIN(productModel)}" target="_blank" class="btn btn-success">Shop</a>` : ''}
           </div>
         </div>
       </div>
@@ -196,9 +195,15 @@ function createProductCard(productModel) {
 function createShopButton(productModel) {
   return `
     <div class="text-center mb-4">
-      <a href="https://amazon.com/dp/${getAmazonASIN(productModel)}" target="_blank" class="btn btn-success btn-lg">
+      ${ getAmazonASIN(productModel) ? `<a href="https://www.amazon.com/dp/${getAmazonASIN(productModel)}" target="_blank" class="btn btn-success btn-lg">
         Shop ${productModel} on Amazon
-      </a>
+      </a>` : ''}
+      ${ geteBayItemNoDe(productModel) ? `<a href="https://www.ebay.de/itm/${geteBayItemNoDe(productModel)}" target="_blank" class="btn btn-success btn-lg">
+        Shop ${productModel} on eBay DE
+      </a>` : ''}
+      ${ geteBayItemNoUk(productModel) ? `<a href="https://www.ebay.co.uk/itm/${geteBayItemNoUk(productModel)}" target="_blank" class="btn btn-success btn-lg">
+        Shop ${productModel} on eBay UK
+      </a>` : ''}
     </div>
   `;
 }
@@ -213,7 +218,29 @@ function getAmazonASIN(productModel) {
     'E02H24': 'B0D69J9HDQ',
     'W01': 'B0CT3SFYY9'
   };
-  return asinMap[productModel] || 'B0XXXXXXXXX';
+  return asinMap[productModel];
+}
+
+function geteBayItemNoDe(productModel) {
+  const itemNoDeMap = {
+    'S400': '146886599741',
+    'S300': '146893278428',
+    'GM100': '146893334645',
+    'E02': '146864293834',
+    'W01': '146893311196'
+  };
+  return itemNoDeMap[productModel];
+}
+
+function geteBayItemNoUk(productModel) {
+  const itemNoUkMap = {
+    'S400': '146902116866',
+    'S300': '146892525605',
+    'E02H24': '146980837931',
+    'E02': '146844611409',
+    'W01': '146886612978'
+  };
+  return itemNoUkMap[productModel];
 }
 
 // 修改暗黑模式切换按钮
