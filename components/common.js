@@ -89,7 +89,7 @@ function loadCommonNav(productModel) {
     <div><a href="#picgroup1">${productModel} Black Gallery</a></div>
     <div><a href="#picgroup2">${productModel} White Gallery</a></div>
     <div><a href="#man">Manual</a></div>
-    <div><a href="#install">Installation Guide</a></div>
+    <!-- <div><a href="#install">Installation Guide</a></div> -->
   `;
   document.querySelector('.container').prepend(nav);
 }
@@ -198,6 +198,9 @@ function createShopButton(productModel) {
       ${ getAmazonASIN(productModel) ? `<a href="https://www.amazon.com/dp/${getAmazonASIN(productModel)}" target="_blank" class="btn btn-success btn-lg">
         Shop ${productModel} on Amazon
       </a>` : ''}
+      ${ geteBayItemNoUs(productModel) ? `<a href="https://www.ebay.com/itm/${geteBayItemNoUs(productModel)}" target="_blank" class="btn btn-success btn-lg">
+        Shop ${productModel} on eBay US
+      </a>` : ''}
       ${ geteBayItemNoDe(productModel) ? `<a href="https://www.ebay.de/itm/${geteBayItemNoDe(productModel)}" target="_blank" class="btn btn-success btn-lg">
         Shop ${productModel} on eBay DE
       </a>` : ''}
@@ -219,6 +222,16 @@ function getAmazonASIN(productModel) {
     'W01': 'B0CT3SFYY9'
   };
   return asinMap[productModel];
+}
+
+function geteBayItemNoUs(productModel) {
+  const itemNoUsMap = {
+    'S400': '146757421134',
+    'S300': '146830895088',
+    'E02': '146784537007',
+    'W01': '146826136765'
+  };
+  return itemNoUsMap[productModel];
 }
 
 function geteBayItemNoDe(productModel) {
