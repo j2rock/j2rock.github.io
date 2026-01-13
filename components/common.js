@@ -195,9 +195,7 @@ function createProductCard(productModel) {
 function createShopButton(productModel) {
   return `
     <div class="text-center mb-4">
-      ${ getAmazonASIN(productModel) ? `<a href="https://www.amazon.com/dp/${getAmazonASIN(productModel)}" target="_blank" class="btn btn-success btn-lg">
-        Shop ${productModel} on Amazon
-      </a>` : ''}
+
       ${ geteBayItemNoUs(productModel) ? `<a href="https://www.ebay.com/itm/${geteBayItemNoUs(productModel)}" target="_blank" class="btn btn-success btn-lg">
         Shop ${productModel} on eBay US
       </a>` : ''}
